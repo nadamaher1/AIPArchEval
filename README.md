@@ -30,4 +30,3 @@ This project aims to:
 This work is provided for educational and research purposes. Please see [LICENSE](LICENSE) (if included in your repository) for details on permissions and restrictions.
 
 **Enjoy using this thesis repository, and feel free to contribute or raise issues for improvements!**
-```
