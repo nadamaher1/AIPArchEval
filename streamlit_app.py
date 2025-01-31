@@ -16,101 +16,112 @@ def random_default(min_val, max_val, decimal=0):
         return random.randint(min_val, max_val)
     return round(random.uniform(min_val, max_val), decimal)
 
-# Create input fields with random defaults
+# Initialize random defaults in session_state if not already present
+if "defaults" not in st.session_state:
+    st.session_state.defaults = {
+        "body_weight": random_default(1.5, 5.0, 1),
+        "processor_cores": random.choice([2,4,6,8,12,16]),
+        "processor_freq": random_default(2.0, 3.6, 1),
+        "sensor_accuracy": random_default(0.70, 0.99, 3),
+        "sensor_res": random_default(720, 4096),
+        "actuator_speed": random_default(80, 200),
+        "actuator_force": random_default(100.0, 500.0, 1),
+        "cooling_power": random_default(30, 150),
+        "ps_efficiency": random_default(0.80, 0.99, 3),
+        "ps_max_output": random_default(100, 500),
+        "ff_flow": random_default(1.0, 5.0, 2),
+        "ff_pressure": random_default(5, 30),
+        "lb_stress": random_default(50, 200),
+        "mg_torque": random_default(50, 200),
+        "mg_rpm": random_default(1000, 8000),
+        "gb_ratio": random_default(2.0, 6.0, 2),
+        "comm_bw": random_default(10, 1000),
+        "chem_rate": random_default(0.5, 2.0, 2),
+        "chem_ph": random_default(2.0, 10.0, 1),
+        "total_power": random_default(50, 300, 1),
+        "thermal_load": random_default(0, 200, 1),
+        "system_cost": random_default(500, 5000, 1)
+    }
+
+# For convenience, load those values into local variables
+defaults = st.session_state.defaults
+
+# Create input fields
 st.header("Component Specifications")
 col1, col2 = st.columns(2)
 
 with col1:
-    body_weight = st.number_input("Body Weight (kg)", 
-                                value=random_default(1.5, 5.0, 1),
-                                min_value=0.0)
-    
-    processor_cores = st.number_input("Processor Cores", 
-                                    value=random.choice([2,4,6,8,12,16]),
+    body_weight = st.number_input("Body Weight (kg)",
+                                  value=defaults["body_weight"],
+                                  min_value=0.0)
+    processor_cores = st.number_input("Processor Cores",
+                                      value=defaults["processor_cores"],
+                                      min_value=0)
+    processor_freq = st.number_input("Processor Frequency (GHz)",
+                                     value=defaults["processor_freq"],
+                                     min_value=0.0)
+    sensor_accuracy = st.number_input("Sensor Accuracy",
+                                      value=defaults["sensor_accuracy"],
+                                      min_value=0.0, max_value=1.0)
+    sensor_res = st.number_input("Sensor Resolution (px)",
+                                 value=defaults["sensor_res"],
+                                 min_value=0)
+    actuator_speed = st.number_input("Actuator Max Speed (mm/s)",
+                                     value=defaults["actuator_speed"],
+                                     min_value=0)
+    actuator_force = st.number_input("Actuator Force (N)",
+                                     value=defaults["actuator_force"],
+                                     min_value=0.0)
+    cooling_power = st.number_input("Cooling Power (W)",
+                                    value=defaults["cooling_power"],
                                     min_value=0)
-    
-    processor_freq = st.number_input("Processor Frequency (GHz)", 
-                                   value=random_default(2.0, 3.6, 1),
-                                   min_value=0.0)
-    
-    sensor_accuracy = st.number_input("Sensor Accuracy", 
-                                    value=random_default(0.70, 0.99, 3),
+    ps_efficiency = st.number_input("Power Splitter Efficiency",
+                                    value=defaults["ps_efficiency"],
                                     min_value=0.0, max_value=1.0)
-    
-    sensor_res = st.number_input("Sensor Resolution (px)", 
-                               value=random_default(720, 4096),
-                               min_value=0)
-    
-    actuator_speed = st.number_input("Actuator Max Speed (mm/s)", 
-                                   value=random_default(80, 200),
-                                   min_value=0)
-    
-    actuator_force = st.number_input("Actuator Force (N)", 
-                                   value=random_default(100.0, 500.0, 1),
-                                   min_value=0.0)
-    
-    cooling_power = st.number_input("Cooling Power (W)", 
-                                  value=random_default(30, 150),
-                                  min_value=0)
-    
-    ps_efficiency = st.number_input("Power Splitter Efficiency", 
-                                  value=random_default(0.80, 0.99, 3),
-                                  min_value=0.0, max_value=1.0)
-    
-    ps_max_output = st.number_input("Power Splitter Max Output (W)", 
-                                  value=random_default(100, 500),
-                                  min_value=0)
+    ps_max_output = st.number_input("Power Splitter Max Output (W)",
+                                    value=defaults["ps_max_output"],
+                                    min_value=0)
 
 with col2:
-    ff_flow = st.number_input("Fluid Flow Rate (L/min)", 
-                            value=random_default(1.0, 5.0, 2),
-                            min_value=0.0)
-    
-    ff_pressure = st.number_input("Fluid Max Pressure (bar)", 
-                                value=random_default(5, 30),
-                                min_value=0)
-    
-    lb_stress = st.number_input("Load Bearing Stress (kN)", 
-                              value=random_default(50, 200),
-                              min_value=0)
-    
-    mg_torque = st.number_input("Motor Torque (Nm)", 
-                              value=random_default(50, 200),
-                              min_value=0)
-    
-    mg_rpm = st.number_input("Motor Max RPM", 
-                           value=random_default(1000, 8000),
-                           min_value=0)
-    
-    gb_ratio = st.number_input("Gearbox Ratio", 
-                             value=random_default(2.0, 6.0, 2),
-                             min_value=0.0)
-    
-    comm_bw = st.number_input("Comm Bandwidth (Mbps)", 
-                            value=random_default(10, 1000),
-                            min_value=0)
-    
-    chem_rate = st.number_input("Chemical Feed Rate (ml/s)", 
-                              value=random_default(0.5, 2.0, 2),
+    ff_flow = st.number_input("Fluid Flow Rate (L/min)",
+                              value=defaults["ff_flow"],
                               min_value=0.0)
-    
-    chem_ph = st.number_input("Chemical Feed pH", 
-                            value=random_default(2.0, 10.0, 1),
-                            min_value=0.0, max_value=14.0)
+    ff_pressure = st.number_input("Fluid Max Pressure (bar)",
+                                  value=defaults["ff_pressure"],
+                                  min_value=0)
+    lb_stress = st.number_input("Load Bearing Stress (kN)",
+                                value=defaults["lb_stress"],
+                                min_value=0)
+    mg_torque = st.number_input("Motor Torque (Nm)",
+                                value=defaults["mg_torque"],
+                                min_value=0)
+    mg_rpm = st.number_input("Motor Max RPM",
+                             value=defaults["mg_rpm"],
+                             min_value=0)
+    gb_ratio = st.number_input("Gearbox Ratio",
+                               value=defaults["gb_ratio"],
+                               min_value=0.0)
+    comm_bw = st.number_input("Comm Bandwidth (Mbps)",
+                              value=defaults["comm_bw"],
+                              min_value=0)
+    chem_rate = st.number_input("Chemical Feed Rate (ml/s)",
+                                value=defaults["chem_rate"],
+                                min_value=0.0)
+    chem_ph = st.number_input("Chemical Feed pH",
+                              value=defaults["chem_ph"],
+                              min_value=0.0, max_value=14.0)
 
-# System-level inputs with calculated ranges
+# System-level inputs
 st.header("System Calculations")
-total_power = st.number_input("Total Power Consumption (W)", 
-                            value=random_default(50, 300, 1),
-                            min_value=0.0)
-
-thermal_load = st.number_input("Thermal Load (W)", 
-                             value=random_default(0, 200, 1),
-                             min_value=0.0)
-
-system_cost = st.number_input("System Cost ($)", 
-                            value=random_default(500, 5000, 1),
-                            min_value=0.0)
+total_power = st.number_input("Total Power Consumption (W)",
+                              value=defaults["total_power"],
+                              min_value=0.0)
+thermal_load = st.number_input("Thermal Load (W)",
+                               value=defaults["thermal_load"],
+                               min_value=0.0)
+system_cost = st.number_input("System Cost ($)",
+                              value=defaults["system_cost"],
+                              min_value=0.0)
 
 # Create the data table
 data_table = pd.DataFrame({
